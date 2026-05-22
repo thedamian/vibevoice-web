@@ -11,19 +11,25 @@ if [ -z "$TEXT_FILE" ] || [ -z "$OUTPUT_FILE" ]; then
   exit 1
 fi
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Look for vibevoice.py next to this script, at project root, or use VIBEVOICE_PATH env var
-VIBEVOICE="${VIBEVOICE_PATH:-${SCRIPT_DIR}/../vibevoice.py}"
+# # Look for vibevoice.py next to this script, at project root, or use VIBEVOICE_PATH env var
+# VIBEVOICE="${VIBEVOICE_PATH:-${SCRIPT_DIR}/../vibevoice.py}"
 
-if [ ! -f "$VIBEVOICE" ]; then
-  echo "vibevoice.py not found at: $VIBEVOICE" >&2
-  echo "Set VIBEVOICE_PATH env var to point to vibevoice.py" >&2
-  exit 1
-fi
+# if [ ! -f "$VIBEVOICE" ]; then
+#   echo "vibevoice.py not found at: $VIBEVOICE" >&2
+#   echo "Set VIBEVOICE_PATH env var to point to vibevoice.py" >&2
+#   exit 1
+# fi
 
-python3 "$VIBEVOICE" \
-  --input "$TEXT_FILE" \
-  --output "$OUTPUT_FILE" \
-  --voice1 "$VOICE1" \
-  --voice2 "$VOICE2"
+# python3 "$VIBEVOICE" \
+#   --input "$TEXT_FILE" \
+#   --output "$OUTPUT_FILE" \
+#   --voice1 "$VOICE1" \
+#   --voice2 "$VOICE2"
+
+cd VibeVoice/
+uv run demo/inference_from_file.py \
+    --model_path vibevoice/VibeVoice-7B \
+    --txt_path "$TEXT_FILE" \
+    --speaker_names  Alice Carter

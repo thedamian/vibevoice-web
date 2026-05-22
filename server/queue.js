@@ -1,4 +1,4 @@
-import { execFile, chmod } from 'child_process'
+import { execFile } from 'child_process'
 import { basename } from 'path'
 import { unlink } from 'fs/promises'
 import { fileURLToPath } from 'url'
@@ -63,12 +63,9 @@ class Queue {
 
   _runScript(textFile, outputFile) {
     return new Promise((resolve, reject) => {
-      // Ensure script is executable then run it
-      chmod(SCRIPT, 0o755, () => {
-        execFile('bash', [SCRIPT, textFile, outputFile], { timeout: 300_000 }, (err, stdout, stderr) => {
-          if (err) reject(new Error(stderr || err.message))
-          else resolve(stdout)
-        })
+      execFile('bash', [SCRIPT, textFile, outputFile], { timeout: 300_000 }, (err, stdout, stderr) => {
+        if (err) reject(new Error(stderr || err.message))
+        else resolve(stdout)
       })
     })
   }
